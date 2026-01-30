@@ -107,8 +107,9 @@ jobs:
         id: prepare
         run: |
           UPSTREAM_VERSION="${{ needs.check-upstream.outputs.upstream_version }}"
-          DATE=$(date +%Y%m%d)
-          RELEASE_VERSION="${UPSTREAM_VERSION}-zh.${DATE}"
+          # 使用日期+时分秒确保版本唯一
+          TIMESTAMP=$(date +%Y%m%d%H%M)
+          RELEASE_VERSION="${UPSTREAM_VERSION}-zh.${TIMESTAMP}"
           
           echo "release_version=$RELEASE_VERSION" >> $GITHUB_OUTPUT
           echo "📦 发布版本: $RELEASE_VERSION"
