@@ -703,6 +703,38 @@ openclaw --version  # 应提示命令不存在
 
 启动 OpenClaw 后，访问 `http://localhost:18789` 即可打开网页控制台（全中文界面）。
 
+### Q: Dashboard 显示 `gateway token mismatch` 怎么办？
+
+这是 Token 认证失败。你需要使用 **带 token 的 URL** 访问 Dashboard。
+
+**解决方法（推荐）：**
+
+```bash
+# 使用命令自动打开带 token 的 Dashboard
+openclaw dashboard
+
+# Docker 环境下，先获取 token URL
+docker exec openclaw openclaw dashboard --print-url
+# 输出类似：http://localhost:18789?token=abc123...
+# 复制这个 URL 到浏览器打开
+```
+
+**手动方法：**
+
+1. 查看你的 gateway token：
+   ```bash
+   openclaw config get gateway.token
+   # 或 Docker 环境
+   docker exec openclaw openclaw config get gateway.token
+   ```
+
+2. 在浏览器 URL 后添加 `?token=你的token`：
+   ```
+   http://localhost:18789?token=你的token值
+   ```
+
+> 💡 **提示**：直接访问 `http://localhost:18789` 不带 token 会导致此错误。推荐始终使用 `openclaw dashboard` 命令打开。
+
 ### Q: Dashboard 连接显示 `pairing required` 怎么办？
 
 这是 OpenClaw 的**设备配对安全机制**。每个浏览器首次连接 Gateway 时，需要管理员批准配对请求。
