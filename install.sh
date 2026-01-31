@@ -141,6 +141,41 @@ install_chinese() {
     echo -e "${GREEN}✓${NC} 安装完成！"
 }
 
+# 运行安装后自动初始化 (条件性)
+run_setup_if_needed() {
+    local CONFIG_PATH="$HOME/.openclaw/openclaw.json"
+    
+    # CI 环境跳过
+    if [ "$CI" = "true" ]; then
+        echo -e "${YELLOW}⚠${NC} 检测到 CI 环境，跳过自动初始化"
+        return 0
+    fi
+    
+    # 用户明确跳过
+    if [ "$OPENCLAW_SKIP_SETUP" = "1" ]; then
+        echo -e "${YELLOW}⚠${NC} OPENCLAW_SKIP_SETUP=1，跳过自动初始化"
+        return 0
+    fi
+    
+    # 已有配置则跳过
+    if [ -f "$CONFIG_PATH" ]; then
+        echo -e "${YELLOW}⚠${NC} 检测到已有配置 ($CONFIG_PATH)，跳过自动初始化"
+        return 0
+    fi
+    
+    echo ""
+    echo -e "${BLUE}🔧 正在运行初始化配置...${NC}"
+    echo -e "${YELLOW}   (设置环境变量 OPENCLAW_SKIP_SETUP=1 可跳过此步骤)${NC}"
+    echo ""
+    
+    # 尝试运行非交互式 setup
+    if openclaw setup --non-interactive 2>/dev/null; then
+        echo -e "${GREEN}✓${NC} 自动初始化完成"
+    else
+        echo -e "${YELLOW}⚠${NC} 自动初始化跳过（可能需要交互），请手动运行: openclaw onboard"
+    fi
+}
+
 # 打印成功信息
 print_success() {
     echo ""
@@ -190,6 +225,7 @@ main() {
     echo ""
     uninstall_original
     install_chinese
+    run_setup_if_needed
     print_success
 }
 

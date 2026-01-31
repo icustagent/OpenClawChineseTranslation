@@ -3,6 +3,7 @@
 [![Release](https://img.shields.io/github/v/release/1186258278/OpenClawChineseTranslation?label=稳定版)](https://github.com/1186258278/OpenClawChineseTranslation/releases)
 [![npm](https://img.shields.io/npm/v/@qingchencloud/openclaw-zh?label=npm)](https://www.npmjs.com/package/@qingchencloud/openclaw-zh)
 [![Nightly Build](https://github.com/1186258278/OpenClawChineseTranslation/actions/workflows/nightly.yml/badge.svg)](https://github.com/1186258278/OpenClawChineseTranslation/actions/workflows/nightly.yml)
+[![Test Scripts](https://github.com/1186258278/OpenClawChineseTranslation/actions/workflows/test-scripts.yml/badge.svg)](https://github.com/1186258278/OpenClawChineseTranslation/actions/workflows/test-scripts.yml)
 [![Platform](https://img.shields.io/badge/平台-Windows%20|%20macOS%20|%20Linux-blue)](https://github.com/1186258278/OpenClawChineseTranslation/releases)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
@@ -171,6 +172,9 @@ docker run -d \
 ## 🚀 快速开始
 
 安装完成后：
+
+> 💡 **自动初始化**: 使用一键安装脚本时，安装完成后会自动尝试运行初始化配置。
+> 如需跳过，设置环境变量 `OPENCLAW_SKIP_SETUP=1` 即可。
 
 ```bash
 # 启动初始化向导（全中文界面）

@@ -134,6 +134,47 @@ function Install-ChineseVersion {
     Write-Host "✓ 安装完成！" -ForegroundColor Green
 }
 
+# 运行安装后自动初始化 (条件性)
+function Invoke-SetupIfNeeded {
+    $ConfigPath = Join-Path $env:USERPROFILE ".openclaw\openclaw.json"
+    
+    # CI 环境跳过
+    if ($env:CI -eq "true") {
+        Write-Host "⚠ 检测到 CI 环境，跳过自动初始化" -ForegroundColor Yellow
+        return
+    }
+    
+    # 用户明确跳过
+    if ($env:OPENCLAW_SKIP_SETUP -eq "1") {
+        Write-Host "⚠ OPENCLAW_SKIP_SETUP=1，跳过自动初始化" -ForegroundColor Yellow
+        return
+    }
+    
+    # 已有配置则跳过
+    if (Test-Path $ConfigPath) {
+        Write-Host "⚠ 检测到已有配置 ($ConfigPath)，跳过自动初始化" -ForegroundColor Yellow
+        return
+    }
+    
+    Write-Host ""
+    Write-Host "🔧 正在运行初始化配置..." -ForegroundColor Blue
+    Write-Host "   (设置环境变量 OPENCLAW_SKIP_SETUP=1 可跳过此步骤)" -ForegroundColor Yellow
+    Write-Host ""
+    
+    # 尝试运行非交互式 setup
+    try {
+        $null = openclaw setup --non-interactive 2>$null
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "✓ 自动初始化完成" -ForegroundColor Green
+        } else {
+            Write-Host "⚠ 自动初始化跳过（可能需要交互），请手动运行: openclaw onboard" -ForegroundColor Yellow
+        }
+    }
+    catch {
+        Write-Host "⚠ 自动初始化跳过（可能需要交互），请手动运行: openclaw onboard" -ForegroundColor Yellow
+    }
+}
+
 # 成功信息
 function Show-Success {
     Write-Host ""
@@ -183,6 +224,7 @@ function Main {
     Write-Host ""
     Remove-OriginalOpenClaw
     Install-ChineseVersion
+    Invoke-SetupIfNeeded
     Show-Success
 }
 
