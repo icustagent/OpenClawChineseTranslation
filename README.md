@@ -361,15 +361,35 @@ docker run -d \
 
 访问：`http://服务器IP:18789?token=your-secure-token`
 
-### 远程访问注意事项
+### 远程访问注意事项 ⚠️ 重要
 
-通过 HTTP 从非 localhost 访问时，浏览器会限制某些安全功能（设备身份验证）。
+通过 HTTP 从非 localhost 访问时，浏览器会阻止设备身份验证（Web Crypto API 需要 secure context）。
+
+**✅ 推荐解决方案：设置 Token 认证**
+
+```bash
+# 1. 设置访问令牌（在服务器上执行）
+docker exec openclaw openclaw config set gateway.auth.token YOUR_TOKEN
+docker restart openclaw
+
+# 2. 在浏览器访问远程地址
+http://服务器IP:18789/overview
+
+# 3. 在「网关令牌」输入框填入 YOUR_TOKEN，点击「连接」
+```
+
+> **💡 说明**：设置 `gateway.auth.token` 后，即使通过远程 HTTP 访问，只要在 Dashboard 输入正确的 token 就能连接成功。
+
+**其他解决方案对比：**
 
 | 方案 | 说明 | 适用场景 |
 |------|------|----------|
-| **启用 allowInsecureAuth** | 仅使用 Token 认证 | 内网/测试环境 |
-| **使用 HTTPS** | Tailscale Serve 或 Nginx 反向代理 | 生产环境（推荐） |
-| **SSH 端口转发** | `ssh -L 18789:127.0.0.1:18789 user@server` | 临时访问 |
+| **设置 Token** ⭐ | 设置 `gateway.auth.token`，Dashboard 输入 token | 内网（最简单） |
+| **SSH 端口转发** | `ssh -L 18789:127.0.0.1:18789 user@server` | 更安全 |
+| **Tailscale Serve** | 自动 HTTPS 访问 | 跨网络访问 |
+| **Nginx + HTTPS** | 配置 SSL 证书反向代理 | 生产环境 |
+
+> **⚠️ 注意**：`gateway.controlUi.allowInsecureAuth: true` 配置存在已知上游 Bug（[#1679](https://github.com/clawdbot/clawdbot/issues/1679)），单独使用不起作用，必须配合 `gateway.auth.token` 使用。
 
 ### 使用 Docker Compose
 
