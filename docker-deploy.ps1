@@ -26,7 +26,7 @@ $ErrorActionPreference = "Stop"
 
 # 默认配置
 $VolumeName = "openclaw-data"
-$Image = "ghcr.io/qingchencloud/openclaw-zh:latest"
+$Image = "ghcr.io/1186258278/openclaw-zh:latest"
 
 # 帮助信息
 if ($Help) {

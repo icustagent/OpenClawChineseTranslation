@@ -141,7 +141,7 @@ docker run -d \
   --name openclaw \
   -p 18789:18789 \
   -v openclaw-data:/home/node/.openclaw \
-  ghcr.io/qingchencloud/openclaw-zh:latest
+  ghcr.io/1186258278/openclaw-zh:latest
 
 # 访问 Dashboard
 # http://localhost:18789
@@ -291,14 +291,14 @@ irm https://cdn.jsdelivr.net/gh/1186258278/OpenClawChineseTranslation@main/docke
 docker run -d \
   --name openclaw \
   -p 18789:18789 \
-  ghcr.io/qingchencloud/openclaw-zh:latest
+  ghcr.io/1186258278/openclaw-zh:latest
 
 # 带数据持久化（推荐）
 docker run -d \
   --name openclaw \
   -p 18789:18789 \
   -v openclaw-data:/root/.openclaw \
-  ghcr.io/qingchencloud/openclaw-zh:latest
+  ghcr.io/1186258278/openclaw-zh:latest
 ```
 
 访问：`http://localhost:18789`
@@ -315,17 +315,17 @@ docker volume create openclaw-data
 
 # 2. 初始化配置
 docker run --rm -v openclaw-data:/root/.openclaw \
-  ghcr.io/qingchencloud/openclaw-zh:latest openclaw setup
+  ghcr.io/1186258278/openclaw-zh:latest openclaw setup
 
 # 3. 配置远程访问参数
 docker run --rm -v openclaw-data:/root/.openclaw \
-  ghcr.io/qingchencloud/openclaw-zh:latest openclaw config set gateway.mode local
+  ghcr.io/1186258278/openclaw-zh:latest openclaw config set gateway.mode local
 
 docker run --rm -v openclaw-data:/root/.openclaw \
-  ghcr.io/qingchencloud/openclaw-zh:latest openclaw config set gateway.bind lan
+  ghcr.io/1186258278/openclaw-zh:latest openclaw config set gateway.bind lan
 
 docker run --rm -v openclaw-data:/root/.openclaw \
-  ghcr.io/qingchencloud/openclaw-zh:latest openclaw config set gateway.controlUi.allowInsecureAuth true
+  ghcr.io/1186258278/openclaw-zh:latest openclaw config set gateway.controlUi.allowInsecureAuth true
 
 # 4. 启动容器
 docker run -d \
@@ -334,7 +334,7 @@ docker run -d \
   -v openclaw-data:/root/.openclaw \
   -e OPENCLAW_GATEWAY_TOKEN=your-secure-token \
   --restart unless-stopped \
-  ghcr.io/qingchencloud/openclaw-zh:latest \
+  ghcr.io/1186258278/openclaw-zh:latest \
   openclaw gateway run
 ```
 
@@ -368,7 +368,7 @@ docker-compose up -d
 version: '3.8'
 services:
   openclaw:
-    image: ghcr.io/qingchencloud/openclaw-zh:latest
+    image: ghcr.io/1186258278/openclaw-zh:latest
     container_name: openclaw
     ports:
       - "18789:18789"
