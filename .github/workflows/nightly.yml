@@ -124,7 +124,8 @@ jobs:
           import glob
           
           # 使用 emoji 替代复杂的 SVG，避免转义问题
-          EMOJI_ICON = '<span style="font-size:28px;line-height:1;display:block">🦞</span>'
+          # 使用单引号避免破坏 JS 字符串中的双引号
+          EMOJI_ICON = "<span style='font-size:28px;line-height:1;display:block'>🦞</span>"
           
           pattern = r'<img src="https://mintcdn\.com/[^"]*pixel-lobster\.svg[^"]*" alt="OpenClaw"[^>]*>'
           
