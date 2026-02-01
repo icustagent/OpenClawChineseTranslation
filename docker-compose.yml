@@ -22,7 +22,7 @@ services:
     volumes:
       # 数据持久化（注意：容器以 root 用户运行，配置存储在 /root/.openclaw）
       # - openclaw-data:/root/.openclaw
-      - ./.openclaw:/root/.openclaw
+      - ./openclaw-data:/root/.openclaw
     environment:
       # 访问令牌（推荐设置，用于 Dashboard 认证）
       - OPENCLAW_GATEWAY_TOKEN=${OPENCLAW_GATEWAY_TOKEN:-}
