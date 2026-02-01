@@ -29,6 +29,12 @@ services:
     restart: unless-stopped
     # 默认启动 gateway（首次需要初始化，见下方说明）
     command: openclaw gateway run --allow-unconfigured
+    networks:
+      - dockhand
+
+networks:
+  dockhand:
+    name: dockhand
     # 
     # ========== 首次使用说明 ==========
     # 
